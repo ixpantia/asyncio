@@ -1,0 +1,14 @@
+Package: asyncreader
+Title: An Async Reader in R
+Version: 0.0.0.9000
+Authors@R: 
+  person("Andres", "Quintero", , "afquinteromoreano@gmail.com", role = c("aut", "cre"))
+Description: This package contains a very simple async read interface compatible with the 'promises' API.
+License: MIT + file LICENSE
+Imports:
+    later,
+    promises
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
+Config/rextendr/version: 0.3.1
