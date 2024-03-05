@@ -1,8 +1,10 @@
 # AsyncReader
 
-As the name suggests, this a very simple async reader for reading files in a non-blocking
-way from R. It runs the file reading in a separate thread and uses [promises](https://rstudio.github.io/promises/index.html)
-as an API to eventually return the file contents.
+As the name suggests, this a very simple async file reader and writer for
+interacting with files in a non-blocking way from R. It runs the file reading
+in a separate thread and uses
+[promises](https://rstudio.github.io/promises/index.html) as an API to
+eventually return the result of the operation.
 
 ## Installation
 
@@ -12,22 +14,45 @@ as an API to eventually return the file contents.
 > Rust code.
 
 ```r
-pak::pak("andyquinterom/asyncreader")
+# With remotes
+remotes::install_github("ixpantia/asyncio")
+# With pak
+pak::pak("ixpantia/asyncio")
 ```
 
 ## Usage
 
-```r
-library(asyncreader)
+This package works best when used inside a plumber API or any other async environment like
+Shiny. Here is an example of how to use it in a Plumber API to asynchronously read and write
+to a file.
+
+```R
+library(asyncio)
 library(promises)
 
-# Read a file
-asyncReadLines("path/to/file.txt") %...>%
-  print()
+temp_file <- tempfile()
+
+#* @post /write
+#* @param line The line to write to the file
+#* @parser text
+function(line) {
+  asyncWriteLines(line, temp_file, append = TRUE) %...>% {
+    paste("You wrote:", ., "bytes to the file")
+  } %...!% {
+    paste("Failed to write to the file:", .)
+  }
+}
+
+#* @get /read
+function() {
+  asyncReadLines(temp_file) %...!% {
+    paste("Failed to read from the file, try writing something first:", .)
+  }
+}
 ```
 
 ## Improvements
 
-1. Use a thread pool rather than creating a new thread for each file read.
-2. Add more file reading functions.
-3. Add more options for the file reading functions.
+1. Add more file reading functions.
+1. Add more options for the file reading functions.
+1. Add other I/O operations like TCP, UDP, etc.

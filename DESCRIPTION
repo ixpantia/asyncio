@@ -2,7 +2,10 @@ Package: asyncio
 Title: An Async IO library for R
 Version: 0.0.0.9000
 Authors@R: 
-  person("Andres", "Quintero", , "afquinteromoreano@gmail.com", role = c("aut", "cre"))
+    c(person(given = "ixpantia, SRL",
+             role = "cph",
+             email = "hola@ixpantia.com"),
+      person("Andres", "Quintero", , "andres@ixpantia.com", role = c("aut", "cre")))
 Description: This package contains a very simple asyncio interface.
 License: MIT + file LICENSE
 Imports:
