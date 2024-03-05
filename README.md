@@ -1,8 +1,8 @@
-# AsyncReader
+# asyncio
 
-As the name suggests, this a very simple async file reader and writer for
-interacting with files in a non-blocking way from R. It runs the file reading
-in a separate thread and uses
+As the name suggests, this a very simple async reader and writer for
+interacting with files in a non-blocking way from R. It runs the file I/O 
+in a separate thread and uses the
 [promises](https://rstudio.github.io/promises/index.html) as an API to
 eventually return the result of the operation.
 
