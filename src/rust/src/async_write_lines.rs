@@ -51,7 +51,7 @@ impl AsyncWriteLinesTask<'_> {
                 let written_bytes = write_file_lines(&path, file_contents, append);
                 match written_bytes {
                     Ok(contents) => {
-                        *state.lock().unwrap() = AsyncTaskState::Done(contents);
+                        *state.lock().unwrap() = AsyncTaskState::Done(Some(contents));
                     }
                     Err(fi) => {
                         *state.lock().unwrap() = AsyncTaskState::Error(fi.to_string());

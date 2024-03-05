@@ -33,21 +33,17 @@ pub(crate) struct AsyncReadLinesTask<'a> {
     pub(crate) path: PathBuf,
     // The state of the async read task.
     pub(crate) state: Arc<Mutex<AsyncTaskState<Vec<String>>>>,
-    // The contents of the file read or the error
-    // message if the read failed.
-    pub(crate) file_contents: Arc<Mutex<Vec<String>>>,
 }
 
 impl AsyncReadLinesTask<'_> {
     pub(crate) fn __run(&self) {
         let state = self.state.clone();
-        let file_contents = self.file_contents.clone();
         let path = self.path.clone();
         self.tp.execute(move || {
             let read_contents = read_file_lines(&path);
             match read_contents {
                 Ok(contents) => {
-                    *state.lock().unwrap() = AsyncTaskState::Done(contents);
+                    *state.lock().unwrap() = AsyncTaskState::Done(Some(contents));
                 }
                 Err(fi) => {
                     *state.lock().unwrap() = AsyncTaskState::Error(fi.to_string());
@@ -56,10 +52,13 @@ impl AsyncReadLinesTask<'_> {
         });
     }
     pub(crate) fn __value(&self) -> Robj {
-        let state = self.state.lock().unwrap();
-        match &*state {
-            AsyncTaskState::Done(contents) => contents.into_robj(),
-            AsyncTaskState::Error(e) => e.into_robj(),
+        let mut state = self.state.lock().unwrap();
+        match &mut *state {
+            AsyncTaskState::Done(contents) => contents
+                .take()
+                .expect("Once done it should always be Some(_)")
+                .into_robj(),
+            AsyncTaskState::Error(e) => e.as_str().into_robj(),
             _ => NULL.into_robj(),
         }
     }

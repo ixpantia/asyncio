@@ -18,7 +18,7 @@ pub struct AsyncRuntime {
 // It will be used to communicate the state of the task to R.
 pub enum AsyncTaskState<T> {
     Pending,
-    Done(T),
+    Done(Option<T>),
     Error(String),
 }
 
@@ -33,7 +33,6 @@ impl AsyncRuntime {
             tp: &self.tp,
             path: PathBuf::from(file_path),
             state: Arc::new(Mutex::new(AsyncTaskState::Pending)),
-            file_contents: Arc::new(Mutex::new(Vec::new())),
         }
     }
     fn async_write_lines_task(
