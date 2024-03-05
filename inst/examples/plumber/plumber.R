@@ -1,6 +1,7 @@
 library(asyncio)
 library(promises)
 
+options(asyncio.threads = 10)
 temp_file <- tempfile()
 
 #* @post /write

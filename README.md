@@ -30,6 +30,7 @@ to a file.
 library(asyncio)
 library(promises)
 
+options(asyncio.threads = 10)
 temp_file <- tempfile()
 
 #* @post /write
@@ -49,6 +50,19 @@ function() {
     paste("Failed to read from the file, try writing something first:", .)
   }
 }
+```
+
+## Changing the number of worker threads
+
+`asyncio` uses actual operating system threads, not additional R proccesses,
+therefore spawning additional threads is not as expensive as it would be if
+using the `future` package. You can change the number of worker threads by
+setting the option `asyncio.threads` before calling any of the async functions.
+
+By default, `asyncio.threads` is set to 4. You can change it like this:
+
+```R
+options(asyncio.threads = 10)
 ```
 
 ## Improvements
