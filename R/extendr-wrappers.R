@@ -4,28 +4,54 @@
 
 #
 # This file was created with the following call:
-#   .Call("wrap__make_asyncreader_wrappers", use_symbols = TRUE, package_name = "asyncreader")
+#   .Call("wrap__make_asyncio_wrappers", use_symbols = TRUE, package_name = "asyncio")
 
 #' @docType package
 #' @usage NULL
-#' @useDynLib asyncreader, .registration = TRUE
+#' @useDynLib asyncio, .registration = TRUE
 NULL
 
-AsyncReadTask <- new.env(parent = emptyenv())
+AsyncRuntime <- new.env(parent = emptyenv())
 
-AsyncReadTask$new <- function(file_path) .Call(wrap__AsyncReadTask__new, file_path)
+AsyncRuntime$new <- function(workers) .Call(wrap__AsyncRuntime__new, workers)
 
-AsyncReadTask$run <- function() invisible(.Call(wrap__AsyncReadTask__run, self))
+AsyncRuntime$async_read_lines_task <- function(file_path) .Call(wrap__AsyncRuntime__async_read_lines_task, self, file_path)
 
-AsyncReadTask$value <- function() .Call(wrap__AsyncReadTask__value, self)
-
-AsyncReadTask$state <- function() .Call(wrap__AsyncReadTask__state, self)
+AsyncRuntime$async_write_lines_task <- function(file_path, lines, append) .Call(wrap__AsyncRuntime__async_write_lines_task, self, file_path, lines, append)
 
 #' @export
-`$.AsyncReadTask` <- function (self, name) { func <- AsyncReadTask[[name]]; environment(func) <- environment(); func }
+`$.AsyncRuntime` <- function (self, name) { func <- AsyncRuntime[[name]]; environment(func) <- environment(); func }
 
 #' @export
-`[[.AsyncReadTask` <- `$.AsyncReadTask`
+`[[.AsyncRuntime` <- `$.AsyncRuntime`
+
+AsyncReadLinesTask <- new.env(parent = emptyenv())
+
+AsyncReadLinesTask$run <- function() invisible(.Call(wrap__AsyncReadLinesTask__run, self))
+
+AsyncReadLinesTask$value <- function() .Call(wrap__AsyncReadLinesTask__value, self)
+
+AsyncReadLinesTask$state <- function() .Call(wrap__AsyncReadLinesTask__state, self)
+
+#' @export
+`$.AsyncReadLinesTask` <- function (self, name) { func <- AsyncReadLinesTask[[name]]; environment(func) <- environment(); func }
+
+#' @export
+`[[.AsyncReadLinesTask` <- `$.AsyncReadLinesTask`
+
+AsyncWriteLinesTask <- new.env(parent = emptyenv())
+
+AsyncWriteLinesTask$run <- function() invisible(.Call(wrap__AsyncWriteLinesTask__run, self))
+
+AsyncWriteLinesTask$value <- function() .Call(wrap__AsyncWriteLinesTask__value, self)
+
+AsyncWriteLinesTask$state <- function() .Call(wrap__AsyncWriteLinesTask__state, self)
+
+#' @export
+`$.AsyncWriteLinesTask` <- function (self, name) { func <- AsyncWriteLinesTask[[name]]; environment(func) <- environment(); func }
+
+#' @export
+`[[.AsyncWriteLinesTask` <- `$.AsyncWriteLinesTask`
 
 
 # nolint end

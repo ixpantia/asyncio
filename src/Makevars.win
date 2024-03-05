@@ -2,8 +2,8 @@ TARGET = $(subst 64,x86_64,$(subst 32,i686,$(WIN)))-pc-windows-gnu
 
 TARGET_DIR = ./rust/target
 LIBDIR = $(TARGET_DIR)/$(TARGET)/release
-STATLIB = $(LIBDIR)/libasyncreader.a
-PKG_LIBS = -L$(LIBDIR) -lasyncreader -lws2_32 -ladvapi32 -luserenv -lbcrypt -lntdll
+STATLIB = $(LIBDIR)/libasyncio.a
+PKG_LIBS = -L$(LIBDIR) -lasyncio -lws2_32 -ladvapi32 -luserenv -lbcrypt -lntdll
 
 all: C_clean
 

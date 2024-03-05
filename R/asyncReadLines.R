@@ -7,8 +7,10 @@
 #' @export
 asyncReadLines <- function(file_path) {
 
+  runtime <- getRuntime()
+
   # create a new task to read the file
-  task <- AsyncReadTask$new(file_path)
+  task <- runtime$async_read_lines_task(file_path)
   # start the task
   task$run()
 

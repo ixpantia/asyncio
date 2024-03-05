@@ -1,9 +1,9 @@
-Package: asyncreader
-Title: An Async Reader in R
+Package: asyncio
+Title: An Async IO library for R
 Version: 0.0.0.9000
 Authors@R: 
   person("Andres", "Quintero", , "afquinteromoreano@gmail.com", role = c("aut", "cre"))
-Description: This package contains a very simple async read interface compatible with the 'promises' API.
+Description: This package contains a very simple asyncio interface.
 License: MIT + file LICENSE
 Imports:
     later,

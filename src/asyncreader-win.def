@@ -1,2 +1,2 @@
 EXPORTS
-R_init_asyncreader
+R_init_asyncio
